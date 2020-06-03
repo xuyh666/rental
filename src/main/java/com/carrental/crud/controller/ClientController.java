@@ -94,7 +94,7 @@ public class ClientController {
 		if(b) {
 			return Msg.success();
 		}else {
-			return Msg.fail();
+			return Msg.fail();  
 		}
 		
 	}
