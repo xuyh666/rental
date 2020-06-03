@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrental.crud.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.carrental.crud.bean.Admin">
+    <id column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_username" jdbcType="VARCHAR" property="adminUsername" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="admin_gender" jdbcType="VARCHAR" property="adminGender" />
+    <result column="admin_phoneNumber" jdbcType="VARCHAR" property="adminPhonenumber" />
+    <result column="admin_level" jdbcType="VARCHAR" property="adminLevel" />
+    <result column="admin_headPortrait" jdbcType="VARCHAR" property="adminHeadportrait" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    admin_id, admin_username, admin_password, admin_gender, admin_phoneNumber, admin_level, 
+    admin_headPortrait
+  </sql>
+  <!--更换头像 -->
+  <update id="saveHeadPortrait" parameterType="com.carrental.crud.bean.Admin">
+   		update tbl_admin 
+   		<set>
+   		   admin_headPortrait = #{adminHeadportrait},
+   		</set>
+   		<where>
+   		   admin_id =#{adminId};
+   		</where>
+   	</update>
+  <!-- 管理员登录 -->
+  <select id="adminLogin"  resultType="com.carrental.crud.bean.Admin">
+      SELECT * FROM tbl_admin where admin_username = #{adminUsername} and admin_password = #{adminPassword};
+  </select>
+  <select id="selectByExample" parameterType="com.carrental.crud.bean.AdminExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.carrental.crud.bean.AdminExample">
+    delete from tbl_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.carrental.crud.bean.Admin">
+    insert into tbl_admin (admin_id, admin_username, admin_password, 
+      admin_gender, admin_phoneNumber, admin_level, 
+      admin_headPortrait)
+    values (#{adminId,jdbcType=INTEGER}, #{adminUsername,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR}, 
+      #{adminGender,jdbcType=VARCHAR}, #{adminPhonenumber,jdbcType=VARCHAR}, #{adminLevel,jdbcType=VARCHAR}, 
+      #{adminHeadportrait,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.carrental.crud.bean.Admin">
+    insert into tbl_admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminUsername != null">
+        admin_username,
+      </if>
+      <if test="adminPassword != null">
+        admin_password,
+      </if>
+      <if test="adminGender != null">
+        admin_gender,
+      </if>
+      <if test="adminPhonenumber != null">
+        admin_phoneNumber,
+      </if>
+      <if test="adminLevel != null">
+        admin_level,
+      </if>
+      <if test="adminHeadportrait != null">
+        admin_headPortrait,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminUsername != null">
+        #{adminUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminGender != null">
+        #{adminGender,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhonenumber != null">
+        #{adminPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="adminHeadportrait != null">
+        #{adminHeadportrait,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.carrental.crud.bean.AdminExample" resultType="java.lang.Long">
+    select count(*) from tbl_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_admin
+    <set>
+      <if test="record.adminId != null">
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminUsername != null">
+        admin_username = #{record.adminUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminPassword != null">
+        admin_password = #{record.adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminGender != null">
+        admin_gender = #{record.adminGender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminPhonenumber != null">
+        admin_phoneNumber = #{record.adminPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminHeadportrait != null">
+        admin_headPortrait = #{record.adminHeadportrait,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_admin
+    set admin_id = #{record.adminId,jdbcType=INTEGER},
+      admin_username = #{record.adminUsername,jdbcType=VARCHAR},
+      admin_password = #{record.adminPassword,jdbcType=VARCHAR},
+      admin_gender = #{record.adminGender,jdbcType=VARCHAR},
+      admin_phoneNumber = #{record.adminPhonenumber,jdbcType=VARCHAR},
+      admin_level = #{record.adminLevel,jdbcType=VARCHAR},
+      admin_headPortrait = #{record.adminHeadportrait,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carrental.crud.bean.Admin">
+    update tbl_admin
+    <set>
+      <if test="adminUsername != null">
+        admin_username = #{adminUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        admin_password = #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminGender != null">
+        admin_gender = #{adminGender,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhonenumber != null">
+        admin_phoneNumber = #{adminPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="adminHeadportrait != null">
+        admin_headPortrait = #{adminHeadportrait,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carrental.crud.bean.Admin">
+    update tbl_admin
+    set admin_username = #{adminUsername,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=VARCHAR},
+      admin_gender = #{adminGender,jdbcType=VARCHAR},
+      admin_phoneNumber = #{adminPhonenumber,jdbcType=VARCHAR},
+      admin_level = #{adminLevel,jdbcType=VARCHAR},
+      admin_headPortrait = #{adminHeadportrait,jdbcType=VARCHAR}
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+</mapper>

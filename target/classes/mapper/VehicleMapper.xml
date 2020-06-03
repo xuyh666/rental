@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrental.crud.dao.VehicleMapper">
+  <resultMap id="BaseResultMap" type="com.carrental.crud.bean.Vehicle">
+    <id column="vehicle_id" jdbcType="INTEGER" property="vehicleId" />
+    <result column="vehicle_name" jdbcType="VARCHAR" property="vehicleName" />
+    <result column="vehicle_plate_number" jdbcType="VARCHAR" property="vehiclePlateNumber" />
+    <result column="vehicle_class_number" jdbcType="INTEGER" property="vehicleClassNumber" />
+    <result column="vehicle_brand_number" jdbcType="INTEGER" property="vehicleBrandNumber" />
+    <result column="vehicle_color" jdbcType="VARCHAR" property="vehicleColor" />
+    <result column="vehicle_introduction" jdbcType="VARCHAR" property="vehicleIntroduction" />
+    <result column="vehicle_age" jdbcType="INTEGER" property="vehicleAge" />
+    <result column="vehicle_displacement" jdbcType="VARCHAR" property="vehicleDisplacement" />
+    <result column="vehicle_oil_type" jdbcType="VARCHAR" property="vehicleOilType" />
+    <result column="vehicle_oil_capacity" jdbcType="VARCHAR" property="vehicleOilCapacity" />
+    <result column="vehicle_seat_num" jdbcType="VARCHAR" property="vehicleSeatNum" />
+    <result column="vehicle_image1" jdbcType="VARCHAR" property="vehicleImage1" />
+    <result column="vehicle_image2" jdbcType="VARCHAR" property="vehicleImage2" />
+    <result column="vehicle_image3" jdbcType="VARCHAR" property="vehicleImage3" />
+    <result column="vehicle_image4" jdbcType="VARCHAR" property="vehicleImage4" />
+    <result column="vehicle_daily_rent" jdbcType="INTEGER" property="vehicleDailyRent" />
+    <result column="vehicle_cash_pledge" jdbcType="INTEGER" property="vehicleCashPledge" />
+    <result column="vehicle_state" jdbcType="INTEGER" property="vehicleState" />
+    <result column="vehicle_rental_statistic" jdbcType="INTEGER" property="vehicleRentalStatistic" />
+  </resultMap>
+  <resultMap id="WithClassBrandResultMap" type="com.carrental.crud.bean.Vehicle">
+    <id column="vehicle_id" jdbcType="INTEGER" property="vehicleId" />
+    <result column="vehicle_name" jdbcType="VARCHAR" property="vehicleName" />
+    <result column="vehicle_plate_number" jdbcType="VARCHAR" property="vehiclePlateNumber" />
+    <result column="vehicle_class_number" jdbcType="INTEGER" property="vehicleClassNumber" />
+    <result column="vehicle_brand_number" jdbcType="INTEGER" property="vehicleBrandNumber" />
+    <result column="vehicle_color" jdbcType="VARCHAR" property="vehicleColor" />
+    <result column="vehicle_introduction" jdbcType="VARCHAR" property="vehicleIntroduction" />
+    <result column="vehicle_age" jdbcType="INTEGER" property="vehicleAge" />
+    <result column="vehicle_displacement" jdbcType="VARCHAR" property="vehicleDisplacement" />
+    <result column="vehicle_oil_type" jdbcType="VARCHAR" property="vehicleOilType" />
+    <result column="vehicle_oil_capacity" jdbcType="VARCHAR" property="vehicleOilCapacity" />
+    <result column="vehicle_seat_num" jdbcType="VARCHAR" property="vehicleSeatNum" />
+    <result column="vehicle_image1" jdbcType="VARCHAR" property="vehicleImage1" />
+    <result column="vehicle_image2" jdbcType="VARCHAR" property="vehicleImage2" />
+    <result column="vehicle_image3" jdbcType="VARCHAR" property="vehicleImage3" />
+    <result column="vehicle_image4" jdbcType="VARCHAR" property="vehicleImage4" />
+    <result column="vehicle_daily_rent" jdbcType="INTEGER" property="vehicleDailyRent" />
+    <result column="vehicle_cash_pledge" jdbcType="INTEGER" property="vehicleCashPledge" />
+    <result column="vehicle_state" jdbcType="INTEGER" property="vehicleState" />
+    <result column="vehicle_rental_statistic" jdbcType="INTEGER" property="vehicleRentalStatistic" />
+    <association property="vehicleClass" javaType="com.carrental.crud.bean.VehicleClass">
+       <id column="vehicle_class_number" property="vehicleClassNumber"/>
+       <result column="vehicle_class" property="vehicleClass"/>
+    </association>
+    <association property="vehicleBrand" javaType="com.carrental.crud.bean.VehicleBrand">
+       <id column="vehicle_brand_number" property="vehicleBrandNumber"/>
+       <result column="vehicle_brand" property="vehicleBrand"/>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    vehicle_id, vehicle_name, vehicle_plate_number, vehicle_class_number, vehicle_brand_number, 
+    vehicle_color, vehicle_introduction, vehicle_age, vehicle_displacement, vehicle_oil_type, 
+    vehicle_oil_capacity, vehicle_seat_num, vehicle_image1, vehicle_image2, vehicle_image3, 
+    vehicle_image4, vehicle_daily_rent, vehicle_cash_pledge, vehicle_state, vehicle_rental_statistic
+  </sql>
+    <sql id="With_Class_Brand_Column_List">
+    v.vehicle_id, v.vehicle_name, v.vehicle_plate_number, v.vehicle_class_number, v.vehicle_brand_number, 
+    v.vehicle_color, v.vehicle_introduction, v.vehicle_age, v.vehicle_displacement, v.vehicle_oil_type, 
+    v.vehicle_oil_capacity, v.vehicle_seat_num, v.vehicle_image1, v.vehicle_image2, v.vehicle_image3, 
+    v.vehicle_image4, v.vehicle_daily_rent, v.vehicle_cash_pledge, v.vehicle_state, v.vehicle_rental_statistic,
+    vc.vehicle_class,vb.vehicle_brand
+  </sql>
+  
+  <!--查询排名-->
+  <select id="selectWelcomVehicle" resultMap="WithClassBrandResultMap">
+     select
+		<include refid="With_Class_Brand_Column_List" />
+		 from tbl_vehicle v
+		 LEFT JOIN tbl_vehicleclass as vc ON v.vehicle_class_number = vc.vehicle_class_number
+		 LEFT JOIN tbl_vehiclebrand as vb ON v.vehicle_brand_number = vb.vehicle_brand_number
+		 ORDER BY vehicle_rental_statistic DESC LIMIT 0,5;
+  </select>
+  
+  <!--查询车具带类型品牌-->
+  <select id="selectByExampleWithClassBrand" resultMap="WithClassBrandResultMap">
+     select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="With_Class_Brand_Column_List" />
+		 from tbl_vehicle v
+		 LEFT JOIN tbl_vehicleclass as vc ON v.vehicle_class_number = vc.vehicle_class_number
+		 LEFT JOIN tbl_vehiclebrand as vb ON v.vehicle_brand_number = vb.vehicle_brand_number
+		 <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+         </if>
+	    <if test="orderByClause != null">
+	      order by ${orderByClause}
+	    </if>
+  </select>
+  <select id="selectByNumberWithClassBrand" resultMap="WithClassBrandResultMap" parameterType="java.lang.Integer">
+     select
+		<include refid="With_Class_Brand_Column_List" />
+		 from tbl_vehicle v
+		 LEFT JOIN tbl_vehicleclass as vc ON v.vehicle_class_number = vc.vehicle_class_number
+		 LEFT JOIN tbl_vehiclebrand as vb ON v.vehicle_brand_number = vb.vehicle_brand_number
+		 where v.vehicle_class_number = #{vehicleClassNumber}
+  </select>
+  <!-- 根据金额范围查询  -->
+  <select id="selectWithPriceCondition" resultMap="WithClassBrandResultMap">
+        select
+		<include refid="With_Class_Brand_Column_List" />
+		 from tbl_vehicle v
+		 LEFT JOIN tbl_vehicleclass as vc ON v.vehicle_class_number = vc.vehicle_class_number
+		 LEFT JOIN tbl_vehiclebrand as vb ON v.vehicle_brand_number = vb.vehicle_brand_number
+		 <where>
+		    <if test="vehicleClassNumber != null and vehicleClassNumber != ''">
+		        v.vehicle_class_number = #{vehicleClassNumber}
+		    </if>
+		    <if test="vehicleBrandNumber != null and vehicleBrandNumber != ''">
+		        AND v.vehicle_brand_number = #{vehicleBrandNumber}
+		    </if>
+		    <if test="priceMin != null ">
+		        AND v.vehicle_daily_rent &gt;= #{priceMin}
+		    </if>
+		    <if test="priceMax != null ">
+		        AND v.vehicle_daily_rent  &lt;= #{priceMax}
+		    </if>
+		    <if test="vehicleState != null">
+		        AND v.vehicle_state = #{vehicleState}
+		    </if>
+		 </where>
+  </select>
+  <!-- 多条件查询车车 -->
+  <select id="selectVehicleByConditions" resultMap="WithClassBrandResultMap" parameterType="com.carrental.crud.bean.Vehicle">
+       select
+		<include refid="With_Class_Brand_Column_List" />
+		 from tbl_vehicle v
+		 LEFT JOIN tbl_vehicleclass as vc ON v.vehicle_class_number = vc.vehicle_class_number
+		 LEFT JOIN tbl_vehiclebrand as vb ON v.vehicle_brand_number = vb.vehicle_brand_number
+		 <where>
+		    <if test="vehicleId != null and vehicleId != ''">
+		         v.vehicle_id = #{vehicleId}
+		    </if>
+		    <if test="vehicleName !=null and vehicleName != ''">
+		        AND  v.vehicle_name = #{vehicleName}  
+		    </if>
+		    <if test="vehiclePlateNumber !=null and vehiclePlateNumber != ''">
+		        AND  v.vehicle_plate_Number = #{vehiclePlateNumber}  
+		    </if>
+		    <if test="vehicleClassNumber != null and vehicleClassNumber != ''">
+		        AND v.vehicle_class_number = #{vehicleClassNumber}
+		    </if>
+		    <if test="vehicleBrandNumber != null and vehicleBrandNumber != ''">
+		        AND v.vehicle_brand_number = #{vehicleBrandNumber}
+		    </if>
+		    <if test="vehicleColor != null and vehicleColor != ''">
+		        AND v.vehicle_color = #{vehicleColor}
+		    </if>
+		    <if test="vehicleAge != null and vehicleAge != ''">
+		        AND v.vehicle_age = #{vehicleAge}
+		    </if>
+		    <if test="vehicleDisplacement != null and vehicleDisplacement != ''">
+		        AND v.vehicle_displacement = #{vehicleDisplacement}
+		    </if>
+		    <if test="vehicleOilType != null and vehicleOilType !=''">
+		        AND v.vehicle_oil_type = #{vehicleOilType}
+		    </if>
+		    <if test="vehicleOilCapacity != null and vehicleOilCapacity != ''">
+		        AND v.vehicle_oil_capacity = #{vehicleOilCapacity}
+		    </if>
+		    <if test="vehicleSeatNum != null and vehicleSeatNum != ''">
+		        AND v.vehicle_seat_num = #{vehicleSeatNum}
+		    </if>
+		    <if test="vehicleDailyRent != null and vehicleDailyRent != ''">
+		        AND v.vehicle_daily_rent = #{vehicleDailyRent}
+		    </if>
+		    <if test="vehicleCashPledge != null and vehicleCashPledge != ''">
+		        AND v.vehicle_cash_pledge = #{vehicleCashPledge}
+		    </if>
+		    <if test="vehicleState != null">
+		        AND v.vehicle_state = #{vehicleState}
+		    </if>
+		    <if test="vehicleRentalStatistic != null and vehicleRentalStatistic != ''">
+		        AND v.vehicle_rental_statistic = #{vehicleRentalStatistic}
+		    </if>
+		 </where>
+  </select>
+  <select id="selectByExample" parameterType="com.carrental.crud.bean.VehicleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_vehicle
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_vehicle
+    where vehicle_id = #{vehicleId,jdbcType=INTEGER}
+  </select>
+  <!--查找带类型品牌的车  -->
+  <select id="selectByPrimaryKey1" parameterType="java.lang.Integer" resultMap="WithClassBrandResultMap">
+    select
+		<include refid="With_Class_Brand_Column_List" />
+		 from tbl_vehicle v
+		 LEFT JOIN tbl_vehicleclass as vc ON v.vehicle_class_number = vc.vehicle_class_number
+		 LEFT JOIN tbl_vehiclebrand as vb ON v.vehicle_brand_number = vb.vehicle_brand_number
+    where vehicle_id = #{vehicleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_vehicle
+    where vehicle_id = #{vehicleId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.carrental.crud.bean.VehicleExample">
+    delete from tbl_vehicle
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.carrental.crud.bean.Vehicle">
+    insert into tbl_vehicle (vehicle_id, vehicle_name, vehicle_plate_number, 
+      vehicle_class_number, vehicle_brand_number, 
+      vehicle_color, vehicle_introduction, vehicle_age, 
+      vehicle_displacement, vehicle_oil_type, vehicle_oil_capacity, 
+      vehicle_seat_num, vehicle_image1, vehicle_image2, 
+      vehicle_image3, vehicle_image4, vehicle_daily_rent, 
+      vehicle_cash_pledge, vehicle_state, vehicle_rental_statistic
+      )
+    values (#{vehicleId,jdbcType=INTEGER}, #{vehicleName,jdbcType=VARCHAR}, #{vehiclePlateNumber,jdbcType=VARCHAR}, 
+      #{vehicleClassNumber,jdbcType=INTEGER}, #{vehicleBrandNumber,jdbcType=INTEGER}, 
+      #{vehicleColor,jdbcType=VARCHAR}, #{vehicleIntroduction,jdbcType=VARCHAR}, #{vehicleAge,jdbcType=INTEGER}, 
+      #{vehicleDisplacement,jdbcType=VARCHAR}, #{vehicleOilType,jdbcType=VARCHAR}, #{vehicleOilCapacity,jdbcType=VARCHAR}, 
+      #{vehicleSeatNum,jdbcType=VARCHAR}, #{vehicleImage1,jdbcType=VARCHAR}, #{vehicleImage2,jdbcType=VARCHAR}, 
+      #{vehicleImage3,jdbcType=VARCHAR}, #{vehicleImage4,jdbcType=VARCHAR}, #{vehicleDailyRent,jdbcType=INTEGER}, 
+      #{vehicleCashPledge,jdbcType=INTEGER}, #{vehicleState,jdbcType=INTEGER}, #{vehicleRentalStatistic,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.carrental.crud.bean.Vehicle">
+    insert into tbl_vehicle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vehicleId != null">
+        vehicle_id,
+      </if>
+      <if test="vehicleName != null">
+        vehicle_name,
+      </if>
+      <if test="vehiclePlateNumber != null">
+        vehicle_plate_number,
+      </if>
+      <if test="vehicleClassNumber != null">
+        vehicle_class_number,
+      </if>
+      <if test="vehicleBrandNumber != null">
+        vehicle_brand_number,
+      </if>
+      <if test="vehicleColor != null">
+        vehicle_color,
+      </if>
+      <if test="vehicleIntroduction != null">
+        vehicle_introduction,
+      </if>
+      <if test="vehicleAge != null">
+        vehicle_age,
+      </if>
+      <if test="vehicleDisplacement != null">
+        vehicle_displacement,
+      </if>
+      <if test="vehicleOilType != null">
+        vehicle_oil_type,
+      </if>
+      <if test="vehicleOilCapacity != null">
+        vehicle_oil_capacity,
+      </if>
+      <if test="vehicleSeatNum != null">
+        vehicle_seat_num,
+      </if>
+      <if test="vehicleImage1 != null">
+        vehicle_image1,
+      </if>
+      <if test="vehicleImage2 != null">
+        vehicle_image2,
+      </if>
+      <if test="vehicleImage3 != null">
+        vehicle_image3,
+      </if>
+      <if test="vehicleImage4 != null">
+        vehicle_image4,
+      </if>
+      <if test="vehicleDailyRent != null">
+        vehicle_daily_rent,
+      </if>
+      <if test="vehicleCashPledge != null">
+        vehicle_cash_pledge,
+      </if>
+      <if test="vehicleState != null">
+        vehicle_state,
+      </if>
+      <if test="vehicleRentalStatistic != null">
+        vehicle_rental_statistic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleName != null">
+        #{vehicleName,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclePlateNumber != null">
+        #{vehiclePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleClassNumber != null">
+        #{vehicleClassNumber,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleBrandNumber != null">
+        #{vehicleBrandNumber,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleColor != null">
+        #{vehicleColor,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleIntroduction != null">
+        #{vehicleIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleAge != null">
+        #{vehicleAge,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleDisplacement != null">
+        #{vehicleDisplacement,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleOilType != null">
+        #{vehicleOilType,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleOilCapacity != null">
+        #{vehicleOilCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleSeatNum != null">
+        #{vehicleSeatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage1 != null">
+        #{vehicleImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage2 != null">
+        #{vehicleImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage3 != null">
+        #{vehicleImage3,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage4 != null">
+        #{vehicleImage4,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleDailyRent != null">
+        #{vehicleDailyRent,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleCashPledge != null">
+        #{vehicleCashPledge,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleState != null">
+        #{vehicleState,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleRentalStatistic != null">
+        #{vehicleRentalStatistic,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.carrental.crud.bean.VehicleExample" resultType="java.lang.Long">
+    select count(*) from tbl_vehicle
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_vehicle
+    <set>
+      <if test="record.vehicleId != null">
+        vehicle_id = #{record.vehicleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleName != null">
+        vehicle_name = #{record.vehicleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehiclePlateNumber != null">
+        vehicle_plate_number = #{record.vehiclePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleClassNumber != null">
+        vehicle_class_number = #{record.vehicleClassNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleBrandNumber != null">
+        vehicle_brand_number = #{record.vehicleBrandNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleColor != null">
+        vehicle_color = #{record.vehicleColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleIntroduction != null">
+        vehicle_introduction = #{record.vehicleIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleAge != null">
+        vehicle_age = #{record.vehicleAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleDisplacement != null">
+        vehicle_displacement = #{record.vehicleDisplacement,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleOilType != null">
+        vehicle_oil_type = #{record.vehicleOilType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleOilCapacity != null">
+        vehicle_oil_capacity = #{record.vehicleOilCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleSeatNum != null">
+        vehicle_seat_num = #{record.vehicleSeatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleImage1 != null">
+        vehicle_image1 = #{record.vehicleImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleImage2 != null">
+        vehicle_image2 = #{record.vehicleImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleImage3 != null">
+        vehicle_image3 = #{record.vehicleImage3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleImage4 != null">
+        vehicle_image4 = #{record.vehicleImage4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleDailyRent != null">
+        vehicle_daily_rent = #{record.vehicleDailyRent,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleCashPledge != null">
+        vehicle_cash_pledge = #{record.vehicleCashPledge,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleState != null">
+        vehicle_state = #{record.vehicleState,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleRentalStatistic != null">
+        vehicle_rental_statistic = #{record.vehicleRentalStatistic,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_vehicle
+    set vehicle_id = #{record.vehicleId,jdbcType=INTEGER},
+      vehicle_name = #{record.vehicleName,jdbcType=VARCHAR},
+      vehicle_plate_number = #{record.vehiclePlateNumber,jdbcType=VARCHAR},
+      vehicle_class_number = #{record.vehicleClassNumber,jdbcType=INTEGER},
+      vehicle_brand_number = #{record.vehicleBrandNumber,jdbcType=INTEGER},
+      vehicle_color = #{record.vehicleColor,jdbcType=VARCHAR},
+      vehicle_introduction = #{record.vehicleIntroduction,jdbcType=VARCHAR},
+      vehicle_age = #{record.vehicleAge,jdbcType=INTEGER},
+      vehicle_displacement = #{record.vehicleDisplacement,jdbcType=VARCHAR},
+      vehicle_oil_type = #{record.vehicleOilType,jdbcType=VARCHAR},
+      vehicle_oil_capacity = #{record.vehicleOilCapacity,jdbcType=VARCHAR},
+      vehicle_seat_num = #{record.vehicleSeatNum,jdbcType=VARCHAR},
+      vehicle_image1 = #{record.vehicleImage1,jdbcType=VARCHAR},
+      vehicle_image2 = #{record.vehicleImage2,jdbcType=VARCHAR},
+      vehicle_image3 = #{record.vehicleImage3,jdbcType=VARCHAR},
+      vehicle_image4 = #{record.vehicleImage4,jdbcType=VARCHAR},
+      vehicle_daily_rent = #{record.vehicleDailyRent,jdbcType=INTEGER},
+      vehicle_cash_pledge = #{record.vehicleCashPledge,jdbcType=INTEGER},
+      vehicle_state = #{record.vehicleState,jdbcType=INTEGER},
+      vehicle_rental_statistic = #{record.vehicleRentalStatistic,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carrental.crud.bean.Vehicle">
+    update tbl_vehicle
+    <set>
+      <if test="vehicleName != null">
+        vehicle_name = #{vehicleName,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclePlateNumber != null">
+        vehicle_plate_number = #{vehiclePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleClassNumber != null">
+        vehicle_class_number = #{vehicleClassNumber,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleBrandNumber != null">
+        vehicle_brand_number = #{vehicleBrandNumber,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleColor != null">
+        vehicle_color = #{vehicleColor,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleIntroduction != null">
+        vehicle_introduction = #{vehicleIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleAge != null">
+        vehicle_age = #{vehicleAge,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleDisplacement != null">
+        vehicle_displacement = #{vehicleDisplacement,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleOilType != null">
+        vehicle_oil_type = #{vehicleOilType,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleOilCapacity != null">
+        vehicle_oil_capacity = #{vehicleOilCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleSeatNum != null">
+        vehicle_seat_num = #{vehicleSeatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage1 != null">
+        vehicle_image1 = #{vehicleImage1,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage2 != null">
+        vehicle_image2 = #{vehicleImage2,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage3 != null">
+        vehicle_image3 = #{vehicleImage3,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleImage4 != null">
+        vehicle_image4 = #{vehicleImage4,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleDailyRent != null">
+        vehicle_daily_rent = #{vehicleDailyRent,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleCashPledge != null">
+        vehicle_cash_pledge = #{vehicleCashPledge,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleState != null">
+        vehicle_state = #{vehicleState,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleRentalStatistic != null">
+        vehicle_rental_statistic = #{vehicleRentalStatistic,jdbcType=INTEGER},
+      </if>
+    </set>
+    where vehicle_id = #{vehicleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carrental.crud.bean.Vehicle">
+    update tbl_vehicle
+    set vehicle_name = #{vehicleName,jdbcType=VARCHAR},
+      vehicle_plate_number = #{vehiclePlateNumber,jdbcType=VARCHAR},
+      vehicle_class_number = #{vehicleClassNumber,jdbcType=INTEGER},
+      vehicle_brand_number = #{vehicleBrandNumber,jdbcType=INTEGER},
+      vehicle_color = #{vehicleColor,jdbcType=VARCHAR},
+      vehicle_introduction = #{vehicleIntroduction,jdbcType=VARCHAR},
+      vehicle_age = #{vehicleAge,jdbcType=INTEGER},
+      vehicle_displacement = #{vehicleDisplacement,jdbcType=VARCHAR},
+      vehicle_oil_type = #{vehicleOilType,jdbcType=VARCHAR},
+      vehicle_oil_capacity = #{vehicleOilCapacity,jdbcType=VARCHAR},
+      vehicle_seat_num = #{vehicleSeatNum,jdbcType=VARCHAR},
+      vehicle_image1 = #{vehicleImage1,jdbcType=VARCHAR},
+      vehicle_image2 = #{vehicleImage2,jdbcType=VARCHAR},
+      vehicle_image3 = #{vehicleImage3,jdbcType=VARCHAR},
+      vehicle_image4 = #{vehicleImage4,jdbcType=VARCHAR},
+      vehicle_daily_rent = #{vehicleDailyRent,jdbcType=INTEGER},
+      vehicle_cash_pledge = #{vehicleCashPledge,jdbcType=INTEGER},
+      vehicle_state = #{vehicleState,jdbcType=INTEGER},
+      vehicle_rental_statistic = #{vehicleRentalStatistic,jdbcType=INTEGER}
+    where vehicle_id = #{vehicleId,jdbcType=INTEGER}
+  </update>
+</mapper>

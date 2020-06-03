@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrental.crud.dao.ClientMapper">
+  <resultMap id="BaseResultMap" type="com.carrental.crud.bean.Client">
+    <id column="client_id" jdbcType="INTEGER" property="clientId" />
+    <result column="client_real_name" jdbcType="VARCHAR" property="clientRealName" />
+    <result column="client_gender" jdbcType="VARCHAR" property="clientGender" />
+    <result column="client_birth_date" jdbcType="DATE" property="clientBirthDate" />
+    <result column="client_phone_number" jdbcType="VARCHAR" property="clientPhoneNumber" />
+    <result column="client_username" jdbcType="VARCHAR" property="clientUsername" />
+    <result column="client_password" jdbcType="VARCHAR" property="clientPassword" />
+    <result column="client_email" jdbcType="VARCHAR" property="clientEmail" />
+    <result column="client_balance" jdbcType="INTEGER" property="clientBalance" />
+    <result column="client_id_number" jdbcType="VARCHAR" property="clientIdNumber" />
+    <result column="client_driver_license_number" jdbcType="VARCHAR" property="clientDriverLicenseNumber" />
+    <result column="client_head_portrait" jdbcType="VARCHAR" property="clientHeadPortrait" />
+    <result column="client_activate" jdbcType="INTEGER" property="clientActivate" />
+    <result column="client_activate_code" jdbcType="VARCHAR" property="clientActivateCode" />
+    <result column="client_car_rental_state" jdbcType="INTEGER" property="clientCarRentalState" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    client_id, client_real_name, client_gender, client_birth_date, client_phone_number, 
+    client_username, client_password, client_email, client_balance, client_id_number, 
+    client_driver_license_number, client_head_portrait, client_activate, client_activate_code,client_car_rental_state
+  </sql>
+  <!--用户登录  -->
+  <select id="clientLogin" resultType="com.carrental.crud.bean.Client" parameterType="com.carrental.crud.bean.Client">
+        select * from tbl_client
+        where client_username = #{clientUsername} AND client_password = #{clientPassword};
+  </select>
+  <!--多条件查询  -->
+  <select id="selectClientByConditions" resultMap="BaseResultMap" parameterType="com.carrental.crud.bean.Client">
+        select 
+        <include refid="Base_Column_List" />
+        from tbl_client
+        <where>
+		        <if test="clientId != null and clientId != ''">
+		            client_id = #{clientId}    
+		        </if>
+		        <if test="clientRealName != null and clientRealName != ''">
+		            AND client_real_name = #{clientRealName}    
+		        </if>
+		        <if test="clientGender != null and clientGender != ''">
+		            AND client_gender = #{clientGender}    
+		        </if>
+		        <if test="clientBirthDate != null">
+		            AND client_birth_date = #{clientBirthDate}    
+		        </if>
+		        <if test="clientPhoneNumber != null and clientPhoneNumber != ''">
+		            AND client_phone_number = #{clientPhoneNumber}    
+		        </if>
+		        <if test="clientUsername != null and clientUsername != ''">
+		            AND client_username = #{clientUsername}    
+		        </if>
+		        <if test="clientPassword != null and clientPassword != ''">
+		            AND client_password = #{clientPassword}    
+		        </if>
+		        <if test="clientEmail != null and clientEmail != ''">
+		            AND client_email = #{clientEmail}    
+		        </if>
+		        <if test="clientIdNumber != null and clientIdNumber != ''">
+		            AND client_id_number = #{clientIdNumber}    
+		        </if>
+		        <if test="clientDriverLicenseNumber != null and clientDriverLicenseNumber != ''">
+		            AND client_driver_license_number = #{clientDriverLicenseNumber}    
+		        </if>
+		        <if test="clientActivate != null and clientActivate != ''">
+		            AND client_activate = #{clientActivate}    
+		        </if>
+        </where>
+  </select>
+  <select id="selectByExample" parameterType="com.carrental.crud.bean.ClientExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_client
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_client
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.carrental.crud.bean.ClientExample">
+    delete from tbl_client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.carrental.crud.bean.Client">
+    insert into tbl_client (client_id, client_real_name, client_gender, 
+      client_birth_date, client_phone_number, client_username, 
+      client_password, client_email, client_balance, 
+      client_id_number, client_driver_license_number, 
+      client_head_portrait, client_activate, client_activate_code
+      )
+    values (#{clientId,jdbcType=INTEGER}, #{clientRealName,jdbcType=VARCHAR}, #{clientGender,jdbcType=VARCHAR}, 
+      #{clientBirthDate,jdbcType=DATE}, #{clientPhoneNumber,jdbcType=VARCHAR}, #{clientUsername,jdbcType=VARCHAR}, 
+      #{clientPassword,jdbcType=VARCHAR}, #{clientEmail,jdbcType=VARCHAR}, #{clientBalance,jdbcType=INTEGER}, 
+      #{clientIdNumber,jdbcType=VARCHAR}, #{clientDriverLicenseNumber,jdbcType=VARCHAR}, 
+      #{clientHeadPortrait,jdbcType=VARCHAR}, #{clientActivate,jdbcType=INTEGER}, #{clientActivateCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.carrental.crud.bean.Client">
+    insert into tbl_client
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="clientRealName != null">
+        client_real_name,
+      </if>
+      <if test="clientGender != null">
+        client_gender,
+      </if>
+      <if test="clientBirthDate != null">
+        client_birth_date,
+      </if>
+      <if test="clientPhoneNumber != null">
+        client_phone_number,
+      </if>
+      <if test="clientUsername != null">
+        client_username,
+      </if>
+      <if test="clientPassword != null">
+        client_password,
+      </if>
+      <if test="clientEmail != null">
+        client_email,
+      </if>
+      <if test="clientBalance != null">
+        client_balance,
+      </if>
+      <if test="clientIdNumber != null">
+        client_id_number,
+      </if>
+      <if test="clientDriverLicenseNumber != null">
+        client_driver_license_number,
+      </if>
+      <if test="clientHeadPortrait != null">
+        client_head_portrait,
+      </if>
+      <if test="clientActivate != null">
+        client_activate,
+      </if>
+      <if test="clientActivateCode != null">
+        client_activate_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        #{clientId,jdbcType=INTEGER},
+      </if>
+      <if test="clientRealName != null">
+        #{clientRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientGender != null">
+        #{clientGender,jdbcType=VARCHAR},
+      </if>
+      <if test="clientBirthDate != null">
+        #{clientBirthDate,jdbcType=DATE},
+      </if>
+      <if test="clientPhoneNumber != null">
+        #{clientPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="clientUsername != null">
+        #{clientUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="clientPassword != null">
+        #{clientPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="clientEmail != null">
+        #{clientEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="clientBalance != null">
+        #{clientBalance,jdbcType=INTEGER},
+      </if>
+      <if test="clientIdNumber != null">
+        #{clientIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="clientDriverLicenseNumber != null">
+        #{clientDriverLicenseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="clientHeadPortrait != null">
+        #{clientHeadPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="clientActivate != null">
+        #{clientActivate,jdbcType=INTEGER},
+      </if>
+      <if test="clientActivateCode != null">
+        #{clientActivateCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.carrental.crud.bean.ClientExample" resultType="java.lang.Long">
+    select count(*) from tbl_client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_client
+    <set>
+      <if test="record.clientId != null">
+        client_id = #{record.clientId,jdbcType=INTEGER},
+      </if>
+      <if test="record.clientRealName != null">
+        client_real_name = #{record.clientRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientGender != null">
+        client_gender = #{record.clientGender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientBirthDate != null">
+        client_birth_date = #{record.clientBirthDate,jdbcType=DATE},
+      </if>
+      <if test="record.clientPhoneNumber != null">
+        client_phone_number = #{record.clientPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientUsername != null">
+        client_username = #{record.clientUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientPassword != null">
+        client_password = #{record.clientPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientEmail != null">
+        client_email = #{record.clientEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientBalance != null">
+        client_balance = #{record.clientBalance,jdbcType=INTEGER},
+      </if>
+      <if test="record.clientIdNumber != null">
+        client_id_number = #{record.clientIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientDriverLicenseNumber != null">
+        client_driver_license_number = #{record.clientDriverLicenseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientHeadPortrait != null">
+        client_head_portrait = #{record.clientHeadPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientActivate != null">
+        client_activate = #{record.clientActivate,jdbcType=INTEGER},
+      </if>
+      <if test="record.clientActivateCode != null">
+        client_activate_code = #{record.clientActivateCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_client
+    set client_id = #{record.clientId,jdbcType=INTEGER},
+      client_real_name = #{record.clientRealName,jdbcType=VARCHAR},
+      client_gender = #{record.clientGender,jdbcType=VARCHAR},
+      client_birth_date = #{record.clientBirthDate,jdbcType=DATE},
+      client_phone_number = #{record.clientPhoneNumber,jdbcType=VARCHAR},
+      client_username = #{record.clientUsername,jdbcType=VARCHAR},
+      client_password = #{record.clientPassword,jdbcType=VARCHAR},
+      client_email = #{record.clientEmail,jdbcType=VARCHAR},
+      client_balance = #{record.clientBalance,jdbcType=INTEGER},
+      client_id_number = #{record.clientIdNumber,jdbcType=VARCHAR},
+      client_driver_license_number = #{record.clientDriverLicenseNumber,jdbcType=VARCHAR},
+      client_head_portrait = #{record.clientHeadPortrait,jdbcType=VARCHAR},
+      client_activate = #{record.clientActivate,jdbcType=INTEGER},
+      client_activate_code = #{record.clientActivateCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carrental.crud.bean.Client">
+    update tbl_client
+    <set>
+      <if test="clientRealName != null">
+        client_real_name = #{clientRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientGender != null">
+        client_gender = #{clientGender,jdbcType=VARCHAR},
+      </if>
+      <if test="clientBirthDate != null">
+        client_birth_date = #{clientBirthDate,jdbcType=DATE},
+      </if>
+      <if test="clientPhoneNumber != null">
+        client_phone_number = #{clientPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="clientUsername != null">
+        client_username = #{clientUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="clientPassword != null">
+        client_password = #{clientPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="clientEmail != null">
+        client_email = #{clientEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="clientBalance != null">
+        client_balance = #{clientBalance,jdbcType=INTEGER},
+      </if>
+      <if test="clientIdNumber != null">
+        client_id_number = #{clientIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="clientDriverLicenseNumber != null">
+        client_driver_license_number = #{clientDriverLicenseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="clientHeadPortrait != null">
+        client_head_portrait = #{clientHeadPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="clientActivate != null">
+        client_activate = #{clientActivate,jdbcType=INTEGER},
+      </if>
+      <if test="clientActivateCode != null">
+        client_activate_code = #{clientActivateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientCarRentalState != null">
+        client_car_rental_state = #{clientCarRentalState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carrental.crud.bean.Client">
+    update tbl_client
+    set client_real_name = #{clientRealName,jdbcType=VARCHAR},
+      client_gender = #{clientGender,jdbcType=VARCHAR},
+      client_birth_date = #{clientBirthDate,jdbcType=DATE},
+      client_phone_number = #{clientPhoneNumber,jdbcType=VARCHAR},
+      client_username = #{clientUsername,jdbcType=VARCHAR},
+      client_password = #{clientPassword,jdbcType=VARCHAR},
+      client_email = #{clientEmail,jdbcType=VARCHAR},
+      client_balance = #{clientBalance,jdbcType=INTEGER},
+      client_id_number = #{clientIdNumber,jdbcType=VARCHAR},
+      client_driver_license_number = #{clientDriverLicenseNumber,jdbcType=VARCHAR},
+      client_head_portrait = #{clientHeadPortrait,jdbcType=VARCHAR},
+      client_activate = #{clientActivate,jdbcType=INTEGER},
+      client_activate_code = #{clientActivateCode,jdbcType=VARCHAR},
+      client_car_rental_state = #{clientCarRentalState,jdbcType=INTEGER}
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </update>
+</mapper>
