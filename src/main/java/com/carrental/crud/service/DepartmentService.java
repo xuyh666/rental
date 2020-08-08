@@ -17,7 +17,7 @@ public class DepartmentService {
 	/**
 	 * <h1>获取部门信息<h1/>
 	 * @return List<Department>
-	 * @author xuyh 
+	 * @author xuyh 666666
 	 * @date 2020年1月17日 下午6:30:18
 	 */
 	public List<Department> getDepts() {
